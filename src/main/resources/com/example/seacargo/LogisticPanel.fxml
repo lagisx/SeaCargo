@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to bottom right, #e0f7ff, #ffffff);" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.seacargo.controllers.LogisticPanelController">
+
+    <HBox alignment="CENTER_LEFT" layoutX="0" layoutY="0" prefHeight="45.0" prefWidth="1100" spacing="20" style="-fx-background-color: linear-gradient(to right, #0f4c75, #3282b8);">
+        <padding>
+            <Insets bottom="0" left="20" right="20" top="0" />
+        </padding>
+        <Label fx:id="LabelUser" prefHeight="32.0" prefWidth="159.0" style="-fx-font-size: 22; -fx-text-fill: white; -fx-font-weight: bold;" text="Пользователь" />
+        <Pane prefHeight="46.0" prefWidth="780.0" />
+        <Button onAction="#logout" style="-fx-background-color: white; -fx-text-fill: #0f4c75; -fx-font-weight: bold; -fx-background-radius: 8;" text="Выйти">
+            <padding>
+                <Insets bottom="6" left="20" right="20" top="6" />
+            </padding>
+        </Button>
+    </HBox>
+
+    <HBox layoutX="30" layoutY="60" prefHeight="637.0" prefWidth="1040" spacing="20">
+
+        <VBox fx:id="PanelLeft" prefHeight="637.0" prefWidth="164.0" spacing="15" style="-fx-background-color: #ffffff; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);">
+            <Button fx:id="allCargoTabBtn" alignment="CENTER" contentDisplay="CENTER" onAction="#showAllCargo" prefHeight="40" prefWidth="149.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Все грузы" />
+           <Button fx:id="allFlightsBtn" onAction="#showAllFlights" prefHeight="37.0" prefWidth="148.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #0f4c75; -fx-text-fill: white;" text="Все рейсы" />
+   
+           <Button fx:id="freeFlightsBtn" onAction="#showFreeFlights" prefHeight="37.0" prefWidth="149.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #0f4c75; -fx-text-fill: white;" text="Свободные рейсы" />
+   
+           <Button fx:id="addFlightBtn" onAction="#openAddFlightWindow" prefHeight="30.0" prefWidth="146.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Добавить рейс" />
+        </VBox>
+
+        <StackPane fx:id="contentArea" prefHeight="593.0" prefWidth="888.0" style="-fx-background-color: transparent;">
+
+            <ScrollPane fx:id="allCargoPane" fitToWidth="true" visible="true">
+                <VBox fx:id="allCargoBox" spacing="12">
+                    <padding>
+                        <Insets bottom="10" left="10" right="10" top="10" />
+                    </padding>
+                    <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Это страница Все грузы" />
+                </VBox>
+            </ScrollPane>
+            <ScrollPane fx:id="allFlightsPane" fitToWidth="true" visible="false">
+                <VBox fx:id="allFlightsBox" spacing="12">
+                    <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                </VBox>
+            </ScrollPane>
+
+            <ScrollPane fx:id="freeFlightsPane" fitToWidth="true" visible="false">
+                <VBox fx:id="freeFlightsBox" spacing="12">
+                    <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+               <children>
+                  <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Свободные рейсы" />
+               </children>
+                </VBox>
+            </ScrollPane>
+
+        </StackPane>
+
+    </HBox>
+</AnchorPane>
