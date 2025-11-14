@@ -53,8 +53,8 @@ public class RegisterController {
 
         String role = selectedRole.getText();
 
-        if (password.length() < 8 || password.length() > 15) {
-            errorLabel.setText("Пароль должен быть от 8 до 15 символов");
+        if (password.length() < 8 || password.length() > 10) {
+            errorLabel.setText("Пароль должен быть от 8 до 10 символов");
             return;
         }
 

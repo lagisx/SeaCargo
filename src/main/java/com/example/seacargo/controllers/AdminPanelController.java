@@ -208,6 +208,191 @@ public class AdminPanelController {
         }
     }
 
+    @FXML private void deleteUser() {
+        Users selectedUser = usersTable.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) return;
+
+        String query = "DELETE FROM users WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, selectedUser.getId());
+            stmt.executeUpdate();
+            loadUsers();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML private void editUser() {
+        Users selectedUser = usersTable.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) return;
+
+        TextInputDialog dialogLogin = new TextInputDialog(selectedUser.getUsername());
+        dialogLogin.setTitle("Редактирование пользователя");
+        dialogLogin.setHeaderText("Изменить логин пользователя");
+        dialogLogin.setContentText("Логин:");
+
+        dialogLogin.showAndWait().ifPresent(newLogin -> {
+            TextInputDialog dialogPassword = new TextInputDialog(selectedUser.getPassword());
+            dialogPassword.setTitle("Редактирование пользователя");
+            dialogPassword.setHeaderText("Изменить пароль пользователя");
+            dialogPassword.setContentText("Пароль:");
+
+            dialogPassword.showAndWait().ifPresent(newPassword -> {
+                TextInputDialog dialogEmail = new TextInputDialog(selectedUser.getEmail());
+                dialogEmail.setTitle("Редактирование пользователя");
+                dialogEmail.setHeaderText("Изменить Email пользователя");
+                dialogEmail.setContentText("Email:");
+
+                dialogEmail.showAndWait().ifPresent(newEmail -> {
+                    TextInputDialog dialogRole = new TextInputDialog(selectedUser.getRole());
+                    dialogRole.setTitle("Редактирование пользователя");
+                    dialogRole.setHeaderText("Изменить роль пользователя");
+                    dialogRole.setContentText("Роль:");
+
+                    dialogRole.showAndWait().ifPresent(newRole -> {
+                        updateUser(selectedUser.getId(), newLogin, newPassword, newEmail, newRole);
+                    });
+                });
+            });
+        });
+    }
+
+    private void updateUser(int userId, String username, String password, String email, String role) {
+        String query = "UPDATE users SET username = ?, password = ?, email = ?, role = ? WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            stmt.setString(3, email);
+            stmt.setString(4, role);
+            stmt.setInt(5, userId);
+            stmt.executeUpdate();
+
+            loadUsers();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML private void editCargo() {
+        Cargo selectedCargo = cargoTable.getSelectionModel().getSelectedItem();
+        if (selectedCargo == null) return;
+
+        TextInputDialog dialogName = new TextInputDialog(selectedCargo.getName());
+        dialogName.setTitle("Редактирование груза");
+        dialogName.setHeaderText("Изменить название груза");
+        dialogName.setContentText("Название:");
+
+        dialogName.showAndWait().ifPresent(newName -> {
+            TextInputDialog dialogWeight = new TextInputDialog(selectedCargo.getWeight());
+            dialogWeight.setTitle("Редактирование груза");
+            dialogWeight.setHeaderText("Изменить вес груза");
+            dialogWeight.setContentText("Вес:");
+
+            dialogWeight.showAndWait().ifPresent(newWeight -> {
+                TextInputDialog dialogSender = new TextInputDialog(selectedCargo.getSender());
+                dialogSender.setTitle("Редактирование груза");
+                dialogSender.setHeaderText("Изменить отправителя");
+                dialogSender.setContentText("Отправитель:");
+
+                dialogSender.showAndWait().ifPresent(newSender -> {
+                    TextInputDialog dialogReceiver = new TextInputDialog(selectedCargo.getReceiver());
+                    dialogReceiver.setTitle("Редактирование груза");
+                    dialogReceiver.setHeaderText("Изменить получателя");
+                    dialogReceiver.setContentText("Получатель:");
+
+                    dialogReceiver.showAndWait().ifPresent(newReceiver -> {
+                        updateCargo(selectedCargo.getId(), newName, newWeight, newSender, newReceiver);
+                    });
+                });
+            });
+        });
+    }
+    private void updateCargo(int cargoId, String name, String weight, String sender, String receiver) {
+        String query = "UPDATE cargo SET name = ?, weight = ?, sender = ?, receiver = ? WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, name);
+            stmt.setString(2, weight);
+            stmt.setString(3, sender);
+            stmt.setString(4, receiver);
+            stmt.setInt(5, cargoId);
+            stmt.executeUpdate();
+
+            loadCargos();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            statusLabel.setText("Ошибка при обновлении груза");
+        }
+    }
+
+    @FXML private void deleteFlight() {
+        Flight selectedFlight = flightTable.getSelectionModel().getSelectedItem();
+        if (selectedFlight == null) return;
+
+        String query = "DELETE FROM flights WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, selectedFlight.getId());
+            stmt.executeUpdate();
+
+            loadFlights();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML private void editFlight() {
+        Flight selectedFlight = flightTable.getSelectionModel().getSelectedItem();
+        if (selectedFlight == null) return;
+
+        TextInputDialog dialogNum = new TextInputDialog(selectedFlight.getFlightNumber());
+        dialogNum.setTitle("Редактирование рейса");
+        dialogNum.setHeaderText("Изменить номер рейса");
+        dialogNum.setContentText("Номер:");
+
+        dialogNum.showAndWait().ifPresent(newNum -> {
+            TextInputDialog dialogDeparture = new TextInputDialog(selectedFlight.getDeparture());
+            dialogDeparture.setTitle("Редактирование рейса");
+            dialogDeparture.setHeaderText("Изменить отправление");
+            dialogDeparture.setContentText("Отправление:");
+
+            dialogDeparture.showAndWait().ifPresent(newDeparture -> {
+                TextInputDialog dialogDest = new TextInputDialog(selectedFlight.getDestination());
+                dialogDest.setTitle("Редактирование рейса");
+                dialogDest.setHeaderText("Изменить пункт назначения");
+                dialogDest.setContentText("Пункт назначения:");
+
+                dialogDest.showAndWait().ifPresent(newDestination -> {
+                    updateFlight(selectedFlight.getId(), newNum, newDeparture, newDestination);
+                });
+            });
+        });
+    }
+    private void updateFlight(int flightId, String flightNumber, String departure, String destination) {
+        String query = "UPDATE flights SET flight_number = ?, departure = ?, destination = ? WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, flightNumber);
+            stmt.setString(2, departure);
+            stmt.setString(3, destination);
+            stmt.setInt(4, flightId);
+            stmt.executeUpdate();
+
+            loadFlights();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setNameUser(String user) {
         LabelUser.setText(user);
