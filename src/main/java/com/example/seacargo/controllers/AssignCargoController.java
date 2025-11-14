@@ -68,8 +68,9 @@ public class AssignCargoController {
                 String departure = rs.getString("departure");
                 String destination = rs.getString("destination");
                 LocalDate flightDate = rs.getDate("flight_date").toLocalDate();
+                String status =  rs.getString("status");
 
-                flightList.add(new Flight(id, flightNum, departure, destination, flightDate));
+                flightList.add(new Flight(id, flightNum, departure, destination, flightDate, status));
             }
 
         } catch (SQLException e) {
