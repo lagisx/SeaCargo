@@ -19,6 +19,7 @@ public class Cargo {
         this.status = status;
     }
 
+
     public int getId() { return id; }
     public String getName() { return name; }
     public String getWeight() { return weight; }

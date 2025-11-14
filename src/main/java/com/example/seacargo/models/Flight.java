@@ -8,13 +8,15 @@ public class Flight {
     private String departure;
     private String destination;
     private LocalDate date;
+    private String status;
 
-    public Flight(int id, String flightNumber, String departure, String destination, LocalDate date) {
+    public Flight(int id, String flightNumber, String departure, String destination, LocalDate date, String status) {
         this.id = id;
         this.flightNumber = flightNumber;
         this.departure = departure;
         this.destination = destination;
         this.date = date;
+        this.status=status;
     }
 
     public int getId() { return id; }
@@ -22,6 +24,9 @@ public class Flight {
     public String getDeparture() { return departure; }
     public String getDestination() { return destination; }
     public LocalDate getDate() { return date; }
+    public String getStatus() {
+        return status;
+    }
 
     @Override
     public String toString() {

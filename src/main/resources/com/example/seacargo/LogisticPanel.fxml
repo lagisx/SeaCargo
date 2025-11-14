@@ -3,10 +3,11 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to bottom right, #e0f7ff, #ffffff);" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.seacargo.controllers.LogisticPanelController">
 
-    <HBox alignment="CENTER_LEFT" layoutX="0" layoutY="0" prefHeight="45.0" prefWidth="1100" spacing="20" style="-fx-background-color: linear-gradient(to right, #0f4c75, #3282b8);">
+    <HBox alignment="CENTER_LEFT" layoutX="0" layoutY="0" prefHeight="45.0" prefWidth="1100" spacing="20" style="-fx-background-color: linear-gradient(to right, #0f4c75, #3282b8); -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);">
         <padding>
             <Insets bottom="0" left="20" right="20" top="0" />
         </padding>
@@ -21,37 +22,42 @@
 
     <HBox layoutX="30" layoutY="60" prefHeight="637.0" prefWidth="1040" spacing="20">
 
-        <VBox fx:id="PanelLeft" prefHeight="637.0" prefWidth="164.0" spacing="15" style="-fx-background-color: #ffffff; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);">
-            <Button fx:id="allCargoTabBtn" alignment="CENTER" contentDisplay="CENTER" onAction="#showAllCargo" prefHeight="40" prefWidth="149.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Все грузы" />
-           <Button fx:id="allFlightsBtn" onAction="#showAllFlights" prefHeight="37.0" prefWidth="148.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #0f4c75; -fx-text-fill: white;" text="Все рейсы" />
-   
-           <Button fx:id="freeFlightsBtn" onAction="#showFreeFlights" prefHeight="37.0" prefWidth="149.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #0f4c75; -fx-text-fill: white;" text="Свободные рейсы" />
-   
-           <Button fx:id="addFlightBtn" onAction="#OpenAddCardFlight" prefHeight="30.0" prefWidth="146.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Добавить рейс" />
+        <VBox fx:id="PanelLeft" prefHeight="637.0" prefWidth="164.0" spacing="15" style="-fx-background-color: linear-gradient(to bottom, #ffffff, #f0f8ff); -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 6, 0, 0, 3); -fx-padding: 15;">
+
+            <Button fx:id="allCargoTabBtn" alignment="CENTER" contentDisplay="CENTER" onAction="#showAllCargo" prefHeight="42" prefWidth="149.0" style="-fx-font-weight: bold; -fx-background-radius: 10; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Все грузы" />
+
+            <Button fx:id="allFlightsBtn" onAction="#showAllFlights" prefHeight="40" prefWidth="148.0" style="-fx-font-weight: bold; -fx-background-radius: 10; -fx-background-color: #0f4c75; -fx-text-fill: white;" text="Все рейсы" />
+
+            <Button fx:id="freeFlightsBtn" onAction="#showFreeFlights" prefHeight="40" prefWidth="137.0" style="-fx-font-weight: bold; -fx-background-radius: 10; -fx-background-color: #0f4c75; -fx-text-fill: white;" text="Свободные рейсы">
+            <font>
+               <Font size="11.0" />
+            </font></Button>
+
+            <Button fx:id="addFlightBtn" onAction="#OpenAddCardFlight" prefHeight="38" prefWidth="146.0" style="-fx-font-weight: bold; -fx-background-radius: 10; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Добавить рейс" />
+
         </VBox>
 
-        <StackPane fx:id="contentArea" prefHeight="593.0" prefWidth="888.0" style="-fx-background-color: transparent;">
+        <StackPane fx:id="contentArea" prefHeight="593.0" prefWidth="888.0" style="-fx-background-color: #f9faff; -fx-background-radius: 12; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 4, 0, 0, 2);">
 
-            <ScrollPane fx:id="allCargoPane" fitToWidth="true" visible="true">
-                <VBox fx:id="allCargoBox" spacing="12">
+            <ScrollPane fx:id="allCargoPane" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" visible="true">
+                <VBox fx:id="allCargoBox" spacing="14">
                     <padding>
                         <Insets bottom="10" left="10" right="10" top="10" />
                     </padding>
                     <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Это страница Все грузы" />
                 </VBox>
             </ScrollPane>
-            <ScrollPane fx:id="allFlightsPane" fitToWidth="true" visible="false">
+
+            <ScrollPane fx:id="allFlightsPane" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" visible="false">
                 <VBox fx:id="allFlightsBox" spacing="12">
                     <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
                 </VBox>
             </ScrollPane>
 
-            <ScrollPane fx:id="freeFlightsPane" fitToWidth="true" visible="false">
+            <ScrollPane fx:id="freeFlightsPane" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" visible="false">
                 <VBox fx:id="freeFlightsBox" spacing="12">
                     <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
-               <children>
-                  <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Свободные рейсы" />
-               </children>
+                    <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Свободные рейсы" />
                 </VBox>
             </ScrollPane>
 

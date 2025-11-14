@@ -46,13 +46,19 @@ public class LoginController {
             return;
         }
 
-        if (pass.length() < 8 && !user.equals("postgres")) {
-            showStatus("Пароль должен быть не короче 8 символов");
-            return;
-        }
-
-        if (pass.length() > 15) {
-            showStatus("Пароль должен быть не длиннее 15 символов");
+        if (user.equalsIgnoreCase("postgres")) {
+            if (pass.equals(DB_PASSWORD)) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                AdminPanelController adminPanel = new AdminPanelController();
+                try {
+                    adminPanel.AdminPanel(stage, user, pass);
+                } catch (IOException e) {
+                    showStatus("Ошибка при загрузке панели администратора");
+                    e.printStackTrace();
+                }
+            } else {
+                showStatus("Неверный логин или пароль");
+            }
             return;
         }
 
@@ -78,6 +84,7 @@ public class LoginController {
         }
     }
 
+
     private void showStatus(String message) {
         errorLabel.setText(message);
     }
@@ -85,16 +92,12 @@ public class LoginController {
 
     private void showPanel(String user, Stage stage, String pass, String role) {
         try {
-            FXMLLoader loader = null;
-            Parent root;
-            Scene scene;
-
+            if (user.equalsIgnoreCase("postgres")) {
+                AdminPanelController AdminPanel = new AdminPanelController();
+                AdminPanel.AdminPanel(stage, user, pass);
+                return;
+            }
             switch (role.toLowerCase()) {
-                case "postgres" -> {
-                    AdminPanelController AdminPanel = new AdminPanelController();
-                    AdminPanel.AdminPanel(stage, user, pass);
-                }
-
                 case "логист" -> {
                     LogisticPanelController LogistPanel = new LogisticPanelController();
                     LogistPanel.LogistPanel(stage, user, pass);

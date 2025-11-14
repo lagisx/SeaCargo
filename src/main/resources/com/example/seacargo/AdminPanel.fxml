@@ -1,57 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to bottom right, #e0f7ff, #ffffff);" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.seacargo.controllers.AdminPanelController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to bottom right, #e0f7ff, #ffffff);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.seacargo.controllers.AdminPanelController">
 
     <!-- Верхняя панель -->
     <HBox alignment="CENTER_LEFT" layoutX="0" layoutY="0" prefHeight="45.0" prefWidth="1100" spacing="20" style="-fx-background-color: linear-gradient(to right, #0f4c75, #3282b8);">
         <padding>
             <Insets bottom="0" left="20" right="20" top="0" />
         </padding>
-        <Label fx:id="LabelUser" prefHeight="32.0" prefWidth="209.0" style="-fx-font-size: 22; -fx-text-fill: white; -fx-font-weight: bold;" text="Администратор" />
+        <Label fx:id="LabelUser" prefHeight="32.0" prefWidth="159.0" style="-fx-font-size: 22; -fx-text-fill: white; -fx-font-weight: bold;" text="Администратор" />
         <Pane prefHeight="46.0" prefWidth="780.0" />
-        <Button onAction="#logout" prefHeight="31.0" prefWidth="118.0" style="-fx-background-color: white; -fx-text-fill: #0f4c75; -fx-font-weight: bold; -fx-background-radius: 8;" text="Выйти">
+        <Button onAction="#logout" style="-fx-background-color: white; -fx-text-fill: #0f4c75; -fx-font-weight: bold; -fx-background-radius: 8;" text="Выйти">
             <padding>
                 <Insets bottom="6" left="20" right="20" top="6" />
             </padding>
         </Button>
     </HBox>
 
-    <!-- Основной контент -->
-    <HBox layoutX="30" layoutY="60" prefHeight="637.0" prefWidth="1040" spacing="20">
+    <!-- Левая панель кнопок -->
+    <VBox fx:id="PanelLeft" layoutX="30" layoutY="60" prefHeight="637.0" prefWidth="200.0" spacing="15" style="-fx-background-color: linear-gradient(to bottom, #ffffff, #f0f8ff); -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 6, 0, 0, 3); -fx-padding: 15;">
+        <Button fx:id="btnCargos" alignment="CENTER" contentDisplay="CENTER" onAction="#showCargos" prefHeight="42" prefWidth="180.0" style="-fx-font-weight: bold; -fx-background-radius: 10; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Грузы" />
+        <Button fx:id="btnUsers" onAction="#showUsers" prefHeight="42" prefWidth="180.0" style="-fx-font-weight: bold; -fx-background-radius: 10; -fx-background-color: #0f4c75; -fx-text-fill: white;" text="Пользователи" />
+        <Button fx:id="btnFlight" onAction="#showFlight" prefHeight="42" prefWidth="180.0" style="-fx-font-weight: bold; -fx-background-radius: 10; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Список рейсов" />
+    </VBox>
 
-        <!-- Левое меню -->
-        <VBox fx:id="PanelLeft" prefHeight="637.0" prefWidth="164.0" spacing="15" style="-fx-background-color: #ffffff; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);">
-            <Button fx:id="allUsersBtn" alignment="CENTER" onAction="#showAllUsers" prefHeight="40" prefWidth="149.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Все пользователи" />
-            <Button fx:id="allFlightsBtn" alignment="CENTER" onAction="#showAllFlights" prefHeight="40" prefWidth="149.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #0f4c75; -fx-text-fill: white;" text="Все рейсы" />
-            <Button fx:id="allCargoBtn" alignment="CENTER" onAction="#showAllCargo" prefHeight="40" prefWidth="149.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Все грузы" />
-        </VBox>
+    <!-- Основная область -->
+    <StackPane fx:id="contentArea" layoutX="250" layoutY="60" prefHeight="637.0" prefWidth="810.0" style="-fx-background-color: #f9faff; -fx-background-radius: 12; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 4, 0, 0, 2);">
 
-        <!-- Контент -->
-        <StackPane fx:id="contentArea" prefHeight="593.0" prefWidth="888.0" style="-fx-background-color: transparent;">
-            <ScrollPane fx:id="usersPane" fitToWidth="true" visible="true">
-                <VBox fx:id="usersBox" spacing="12">
-                    <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
-                    <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Список пользователей" />
-                </VBox>
-            </ScrollPane>
+        <!-- Панель грузов -->
+        <ScrollPane fx:id="cargoPane" fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;" visible="true">
+            <VBox spacing="14" style="-fx-padding: 10;">
+                <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Список грузов" />
+                <TableView fx:id="cargoTable" prefHeight="500" prefWidth="780">
+                    <columns>
+                        <TableColumn fx:id="colCargoId" prefWidth="50" text="ID" />
+                        <TableColumn fx:id="colCargoOwner" prefWidth="120" text="Заказчик" />
+                        <TableColumn fx:id="colCargoName" prefWidth="100" text="Название груза" />
+                        <TableColumn fx:id="colCargoWeight" prefWidth="80" text="Вес (т)" />
+                        <TableColumn fx:id="colCargoSender" prefWidth="90" text="Отправитель" />
+                        <TableColumn fx:id="colCargoReceiver" prefWidth="120" text="Получатель" />
+                    </columns>
+                </TableView>
+                <HBox alignment="CENTER_RIGHT" spacing="10">
+                    <Label fx:id="statusLabel" style="-fx-font-size: 13px; -fx-text-fill: red;" />
+                    <Button fx:id="btnDeleteCargo" onAction="#deleteCargo" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="Удалить груз" />
+                </HBox>
+            </VBox>
+        </ScrollPane>
 
-            <ScrollPane fx:id="allFlightsPane" fitToWidth="true" visible="false">
-                <VBox fx:id="allFlightsBox" spacing="12">
-                    <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
-                    <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Все рейсы" />
-                </VBox>
-            </ScrollPane>
+        <!-- Панель пользователей -->
+        <ScrollPane fx:id="usersPane" fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;" visible="false">
+            <VBox spacing="14" style="-fx-padding: 10;">
+                <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Список пользователей" />
+                <TableView fx:id="usersTable" prefHeight="500" prefWidth="780">
+                    <columns>
+                        <TableColumn fx:id="colUserId" prefWidth="50" text="ID" />
+                        <TableColumn fx:id="colUserLogin" prefWidth="150" text="Логин" />
+                  <TableColumn fx:id="colUsersPassword" prefWidth="150" text="Пароль" />
+                        <TableColumn fx:id="colUserEmail" prefWidth="200" text="Email" />
+                        <TableColumn fx:id="colUserRole" prefWidth="100" text="Роль" />
+                  <TableColumn fx:id="colUserAt_created" prefWidth="100" text="Время создания" />
+                    </columns>
+                </TableView>
+            </VBox>
+        </ScrollPane>
 
-            <ScrollPane fx:id="allCargoPane" fitToWidth="true" visible="false">
-                <VBox fx:id="allCargoBox" spacing="12">
-                    <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
-                    <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Все грузы" />
-                </VBox>
-            </ScrollPane>
-        </StackPane>
-    </HBox>
+        <!-- Панель журнала аудита -->
+        <ScrollPane fx:id="flightPane" fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;" visible="false">
+            <VBox spacing="14" style="-fx-padding: 10;">
+                <Label style="-fx-font-size: 18; -fx-text-fill: #3282b8; -fx-font-weight: bold;" text="Список рейсов" />
+                <TableView fx:id="flightTable" prefHeight="500" prefWidth="780">
+                    <columns>
+                        <TableColumn fx:id="colFlightId" prefWidth="50" text="ID" />
+                        <TableColumn fx:id="colAuditUser" prefWidth="150" text="Пользователь" />
+                        <TableColumn fx:id="colFlightNumber" prefWidth="200" text="Номер груза" />
+                        <TableColumn fx:id="colFlightDeparture" prefWidth="200" text="Отправление" />
+                        <TableColumn fx:id="colFlightDestination" prefWidth="180" text="Пункт назначения" />
+                  <TableColumn fx:id="colFlightDate" prefWidth="180" text="Дата перевозки" />
+                  <TableColumn fx:id="colFlightStatus" prefWidth="180" text="Статус груза" />
+                    </columns>
+                </TableView>
+            </VBox>
+        </ScrollPane>
+
+    </StackPane>
 </AnchorPane>
