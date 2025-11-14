@@ -19,7 +19,7 @@ public class LoginController {
 
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/SeaBD";
     public static final String DB_USER = "postgres";
-    public static final String DB_PASSWORD = "lagisx";
+    public static final String DB_PASSWORD = " "; // ИЗМЕНИ ПАРОЛЬ НА СВОЙ, КОГДА ТЫ ЗАХОДИШЬ В POSTGRESQL;
 
     @FXML private TextField loginField;
     @FXML private PasswordField passwordField;
