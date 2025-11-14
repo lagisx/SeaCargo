@@ -27,7 +27,7 @@
    
            <Button fx:id="freeFlightsBtn" onAction="#showFreeFlights" prefHeight="37.0" prefWidth="149.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #0f4c75; -fx-text-fill: white;" text="Свободные рейсы" />
    
-           <Button fx:id="addFlightBtn" onAction="#openAddFlightWindow" prefHeight="30.0" prefWidth="146.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Добавить рейс" />
+           <Button fx:id="addFlightBtn" onAction="#OpenAddCardFlight" prefHeight="30.0" prefWidth="146.0" style="-fx-font-weight: bold; -fx-background-radius: 8; -fx-background-color: #3282b8; -fx-text-fill: white;" text="Добавить рейс" />
         </VBox>
 
         <StackPane fx:id="contentArea" prefHeight="593.0" prefWidth="888.0" style="-fx-background-color: transparent;">

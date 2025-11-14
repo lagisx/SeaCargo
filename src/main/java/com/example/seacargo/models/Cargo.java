@@ -26,4 +26,9 @@ public class Cargo {
     public String getReceiver() { return receiver; }
     public int getUserId() { return userId; }
     public String getStatus() { return status; }
-}
+
+    @Override
+    public String toString() {
+        return name + " (" + weight + ")";
+    }
+    }

@@ -1,12 +1,14 @@
 package com.example.seacargo.controllers;
 
 import com.example.seacargo.HelloApplication;
+import com.example.seacargo.controllers.CardController.AddFlightController;
 import com.example.seacargo.controllers.CardController.GruzCardController;
 import com.example.seacargo.controllers.CardController.FlightCardController;
 import com.example.seacargo.models.Cargo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -96,7 +98,7 @@ public class LogisticPanelController {
             e.printStackTrace();
         }
     }
-    @FXML private void showAllFlights() {
+    @FXML public void showAllFlights() {
         hideAll();
         allFlightsPane.setVisible(true);
         allFlightsBox.getChildren().clear();
@@ -110,6 +112,7 @@ public class LogisticPanelController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/seacargo/Card/FlightsCard.fxml"));
                 AnchorPane card = loader.load();
                 FlightCardController controller = loader.getController();
+                controller.setParentController(this);
 
                 controller.setData(
                         rs.getInt("id"),
@@ -126,48 +129,72 @@ public class LogisticPanelController {
             e.printStackTrace();
         }
     }
-    @FXML
-    private void showFreeFlights() {
+    @FXML public void showFreeFlights() {
         hideAll();
         freeFlightsPane.setVisible(true);
         freeFlightsBox.getChildren().clear();
 
-        String query = "SELECT * FROM flights WHERE id NOT IN (SELECT flight_id FROM cargo WHERE flight_id IS NOT NULL)";
+        String query = "SELECT * FROM flights WHERE status = ?";
         try (Connection conn = DriverManager.getConnection(LoginController.DB_URL, LoginController.DB_USER, LoginController.DB_PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            while (rs.next()) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/seacargo/Card/FlightsCard.fxml"));
-                AnchorPane card = loader.load();
-                FlightCardController controller = loader.getController();
+            stmt.setString(1, "Планируется");
 
-                controller.setData(
-                        rs.getInt("id"),
-                        rs.getString("flight_number"),
-                        rs.getString("departure"),
-                        rs.getString("destination"),
-                        rs.getDate("flight_date").toString(),
-                        rs.getString("status")
-                );
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/seacargo/Card/FlightsCard.fxml"));
+                    AnchorPane card = loader.load();
+                    FlightCardController controller = loader.getController();
+                    controller.setParentController(this);
 
-                freeFlightsBox.getChildren().add(card);
+                    controller.setData(
+                            rs.getInt("id"),
+                            rs.getString("flight_number"),
+                            rs.getString("departure"),
+                            rs.getString("destination"),
+                            rs.getDate("flight_date").toString(),
+                            rs.getString("status")
+                    );
+
+                    freeFlightsBox.getChildren().add(card);
+                }
             }
+
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
-    @FXML private void openAddFlightWindow() {
+    @FXML public void openAddFlightWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/seacargo/Add/AddFlight.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/seacargo/AssignCargo.fxml"));
+            Parent root = loader.load();
             Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Создать рейс");
+            stage.setTitle("Назначить грузы на рейс");
+            stage.setScene(new Scene(root));
             stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void OpenAddCardFlight() {
+        try {
+            FXMLLoader loader = new FXMLLoader(AddFlightController.class.getResource("/com/example/seacargo/Card/AddflightCard.fxml"));
+            Parent root = loader.load();
+            AddFlightController controller = loader.getController();
+            controller.setParentController(this);
+            Stage stage = new Stage();
+            stage.setTitle("Создать рейс");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML private void logout(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("LoginPanel.fxml"));

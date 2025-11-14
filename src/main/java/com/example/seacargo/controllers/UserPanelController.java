@@ -177,14 +177,21 @@ public class UserPanelController {
         }
     }
     private void deleteMyGruz(int gruzId) {
-        String delUserCargo = "DELETE FROM cargo WHERE id = ? ";
-        try (Connection conn = DriverManager.getConnection(LoginController.DB_URL, LoginController.DB_USER, LoginController.DB_PASSWORD);
-             PreparedStatement ps = conn.prepareStatement(delUserCargo)) {
-            ps.setInt(1, gruzId);
-            ps.execute();
+        String delFromFlightCargo = "DELETE FROM flight_cargo WHERE cargo_id = ?";
+        String delUserCargo = "DELETE FROM cargo WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(LoginController.DB_URL, LoginController.DB_USER, LoginController.DB_PASSWORD)) {
+            try (PreparedStatement ps1 = conn.prepareStatement(delFromFlightCargo)) {
+                ps1.setInt(1, gruzId);
+                ps1.executeUpdate();
+            }
+            try (PreparedStatement ps2 = conn.prepareStatement(delUserCargo)) {
+                ps2.setInt(1, gruzId);
+                ps2.executeUpdate();
+            }
+
             loadCargos();
             loadMyCargos();
-
 
         } catch (SQLException e) {
             e.printStackTrace();

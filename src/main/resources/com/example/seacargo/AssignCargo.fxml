@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.seacargo.controllers.AssignCargoController"
+            prefHeight="400" prefWidth="600"
+            style="-fx-background-color: linear-gradient(to bottom right, #f3f4f6, #ffffff);">
+
+    <Label layoutX="20" layoutY="20" text="Назначить грузы на рейс"
+           style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+
+    <Label layoutX="20" layoutY="60" text="Выберите грузы:" style="-fx-text-fill: #4b5563;"/>
+    <ListView fx:id="cargoListView" layoutX="20" layoutY="85" prefWidth="260" prefHeight="200"/>
+
+    <Label layoutX="320" layoutY="60" text="Выберите рейс:" style="-fx-text-fill: #4b5563;"/>
+    <ListView fx:id="flightListView" layoutX="320" layoutY="85" prefWidth="260" prefHeight="200"/>
+
+    <Button fx:id="assignButton" layoutX="200" layoutY="310" text="Назначить"
+            onAction="#assignCargoToFlight"
+            style="-fx-background-color: linear-gradient(to right, #1e3a8a, #60a5fa);
+                   -fx-text-fill: white;
+                   -fx-font-size: 16;
+                   -fx-background-radius: 12;"/>
+</AnchorPane>

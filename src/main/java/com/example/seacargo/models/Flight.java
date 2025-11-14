@@ -1,6 +1,5 @@
 package com.example.seacargo.models;
 
-
 import java.time.LocalDate;
 
 public class Flight {
@@ -18,25 +17,14 @@ public class Flight {
         this.date = date;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public String getFlightNumber() { return flightNumber; }
+    public String getDeparture() { return departure; }
+    public String getDestination() { return destination; }
+    public LocalDate getDate() { return date; }
 
-    public LocalDate getDate() {
-        return date;
+    @Override
+    public String toString() {
+        return flightNumber + " | " + departure + " -> " + destination + " | " + date;
     }
-
-    public String getDeparture() {
-        return departure;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public String getFlightNumber() {
-        return flightNumber;
-    }
-
 }
-
